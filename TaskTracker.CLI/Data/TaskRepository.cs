@@ -8,82 +8,86 @@ public class TaskRepository
     private static int _nextId = 1;
     private readonly List<TaskItem> _task = [];
 
-    public void AddTask(TaskItem task)
+    public static void ResetIdCounter() => _nextId = 1;
+
+    public bool AddTask(TaskItem task)
     {
         task.Id = _nextId++;
+        task.CreatedAt = DateTime.UtcNow;
         _task.Add(task);
+        return true;
     }
     
-    public List<TaskItem> GetAllTasks()
-    {
-        return _task;
-    }
+    public List<TaskItem> GetAllTasks() => _task;
 
-    private TaskItem? GetTaskById(int id)
-    {
-        return _task.FirstOrDefault(t => t.Id == id);
-    }
+    private TaskItem? GetTaskById(int id) => _task.FirstOrDefault(t => t.Id == id);
 
-    public void UpdateTask(TaskItem task)
-    {
-        var existingTask = GetTaskById(task.Id);
-        if (existingTask == null) return;
-        existingTask.Description = task.Description;
-        existingTask.Status = task.Status;
-        existingTask.UpdatedAt = DateTime.UtcNow;
-    }
-
-    public void UpdateTaskStatus(int id, TaskStatus status)
+    public bool UpdateTaskStatus(int id, TaskStatus status)
     {
         var existingTask = GetTaskById(id);
-        if (existingTask == null) return;
+        if (existingTask == null) return false;
         existingTask.Status = status;
-        existingTask.UpdatedAt = DateTime.UtcNow;   
+        existingTask.UpdatedAt = DateTime.UtcNow;  
+        return true;
     }
 
-    public void UpdateTaskDescription(int id, string description)
+    public bool UpdateTaskDescription(int id, string description)
     {
         var existingTask = GetTaskById(id);
-        if (existingTask == null) return;
+        if (existingTask == null) return false;
         existingTask.Description = description;
         existingTask.UpdatedAt = DateTime.UtcNow;
+        return true;
     }
     
-    public void DeleteTask(int id)
+    public bool DeleteTask(int id)
     {
         var existingTask = GetTaskById(id);
-        if (existingTask == null) return;
+        if (existingTask == null) return false;
         _task.Remove(existingTask);
+        return true;
     }
     
-    public void ClearAllTasks()
+    public bool ClearAllTasks()
     {
         _task.Clear();
+        return true;
     }
     
-    public void PrintAllTasks()
+    public bool PrintAllTasks()
     {
         foreach (var task in _task)
         {
             Console.WriteLine(task);
         }
+        return true;
     }
 
-    public void PrintTaskById(int id)
+    public bool PrintTaskById(int id)
     {
         var task = GetTaskById(id);
-        if (task == null) return;
-        Console.WriteLine(task);   
+        if (task == null) return false;
+        Console.WriteLine(task);  
+        return true;
     }
 
-    public void PrintTaskByStatus(TaskStatus status)
+    public bool PrintTasksByStatus(TaskStatus status)
     {
-        var tasks = _task.Where(t => t.Status == status);
+        var tasks = _task.Where(t => t.Status == status).ToList();
+        if (tasks.Count == 0)
+        {
+            Console.WriteLine("No tasks found");
+            return false;
+        }
+        foreach (var task in tasks)
+        {
+            Console.WriteLine(task);
+        }
+        return true;
     }
     
     public void PrintTaskByDescription(string description)
     {
-        var tasks = _task.Where(t => t.Description.Contains(description));
+        var taskItems = _task.Where(t => t.Description.Contains(description));
     }
-
 }
