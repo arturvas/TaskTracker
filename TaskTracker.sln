@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTracker.CLI", "TaskTracker.CLI\TaskTracker.CLI.csproj", "{82378367-EECA-471E-9749-5166AEBA6103}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTracker.Tests", "TaskTracker.Tests\TaskTracker.Tests.csproj", "{DDA6FAAF-55D6-4C27-920B-EB611E67556B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{82378367-EECA-471E-9749-5166AEBA6103}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82378367-EECA-471E-9749-5166AEBA6103}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82378367-EECA-471E-9749-5166AEBA6103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDA6FAAF-55D6-4C27-920B-EB611E67556B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDA6FAAF-55D6-4C27-920B-EB611E67556B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDA6FAAF-55D6-4C27-920B-EB611E67556B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDA6FAAF-55D6-4C27-920B-EB611E67556B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

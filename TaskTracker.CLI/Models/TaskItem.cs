@@ -1,6 +1,6 @@
 namespace TaskTracker.CLI.Models;
 
-public abstract class TaskItem
+public class TaskItem
 {
     public int Id { get; set; }
     public string Description { get; set; } = string.Empty;
