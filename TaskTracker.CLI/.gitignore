@@ -1,0 +1,38 @@
+# Build
+bin/
+obj/
+out/
+
+# Rider
+.idea/
+*.sln.iml
+
+# Logs e temporários
+*.log
+*.tmp
+*.bak
+
+# Configurações locais / segredos
+.env
+.env.*
+secrets.json
+appsettings.*.json
+!appsettings.json
+
+# Testes
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+# macOS
+.DS_Store
+
+# Pacotes e artefatos
+*.nupkg
+*.snupkg
+artifacts/
+
+# Ferramentas locais
+tools/
+scripts/
