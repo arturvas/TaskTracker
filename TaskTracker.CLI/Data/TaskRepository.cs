@@ -1,9 +1,10 @@
+using TaskTracker.CLI.Interfaces;
 using TaskTracker.CLI.Models;
 using TaskStatus = TaskTracker.CLI.Models.TaskStatus;
 
 namespace TaskTracker.CLI.Data;
 
-public class TaskRepository
+public class TaskRepository : ITaskRepository
 {
     private static int _nextId = 1;
     private readonly List<TaskItem> _task = [];
@@ -13,14 +14,13 @@ public class TaskRepository
     public bool AddTask(TaskItem task)
     {
         task.Id = _nextId++;
-        task.CreatedAt = DateTime.UtcNow;
         _task.Add(task);
         return true;
     }
     
     public List<TaskItem> GetAllTasks() => _task;
 
-    private TaskItem? GetTaskById(int id) => _task.FirstOrDefault(t => t.Id == id);
+    public TaskItem? GetTaskById(int id) => _task.FirstOrDefault(t => t.Id == id);
 
     public bool UpdateTaskStatus(int id, TaskStatus status)
     {
@@ -74,11 +74,7 @@ public class TaskRepository
     public bool PrintTasksByStatus(TaskStatus status)
     {
         var tasks = _task.Where(t => t.Status == status).ToList();
-        if (tasks.Count == 0)
-        {
-            Console.WriteLine("No tasks found");
-            return false;
-        }
+        if (tasks.Count == 0) return false;
         foreach (var task in tasks)
         {
             Console.WriteLine(task);
