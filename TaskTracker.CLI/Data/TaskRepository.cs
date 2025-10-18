@@ -12,6 +12,8 @@ public class TaskRepository : ITaskRepository
     
     private static int _nextId = 1;
     private List<TaskItem> _task = [];
+    
+    public static void ResetIdCounter() => _nextId = 1;
 
     public TaskRepository() => LoadFromFile();
     
@@ -32,7 +34,6 @@ public class TaskRepository : ITaskRepository
         File.WriteAllText(FilePath, json);
     }
 
-    public static void ResetIdCounter() => _nextId = 1;
 
     public bool AddTask(TaskItem task)
     {
