@@ -1,3 +1,4 @@
+using System.Text.Json;
 using TaskTracker.CLI.Interfaces;
 using TaskTracker.CLI.Models;
 using TaskStatus = TaskTracker.CLI.Models.TaskStatus;
@@ -6,8 +7,30 @@ namespace TaskTracker.CLI.Data;
 
 public class TaskRepository : ITaskRepository
 {
+    private const string FileName = "tasks_data.json";
+    private static readonly string FilePath = Path.Combine(Directory.GetCurrentDirectory(), FileName);
+    
     private static int _nextId = 1;
-    private readonly List<TaskItem> _task = [];
+    private List<TaskItem> _task = [];
+
+    public TaskRepository() => LoadFromFile();
+    
+    private void LoadFromFile()
+    {
+        if (File.Exists(FilePath)) return;
+        _task = [];
+        
+        var json = File.ReadAllText(FilePath);
+        
+        _task = JsonSerializer.Deserialize<List<TaskItem>>(json) ?? [];
+    }
+    
+    private void SaveToFile()
+    {
+        var json = JsonSerializer.Serialize(_task);
+        
+        File.WriteAllText(FilePath, json);
+    }
 
     public static void ResetIdCounter() => _nextId = 1;
 
@@ -15,6 +38,7 @@ public class TaskRepository : ITaskRepository
     {
         task.Id = _nextId++;
         _task.Add(task);
+        SaveToFile();
         return true;
     }
     
