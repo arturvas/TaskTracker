@@ -15,5 +15,5 @@ public interface ITaskService
     void PrintAllTasks();
     void UpdateTaskStatus(int id, TaskStatus status);
     bool UpdateTaskDescription(int id, string description);
-    
+    List<string> GetHelpCommands();
 }

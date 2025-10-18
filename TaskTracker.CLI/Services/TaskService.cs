@@ -7,8 +7,6 @@ namespace TaskTracker.CLI.Services;
 
 public class TaskService(TaskRepository repository) : ITaskService
 {
-    // regras de negócio: validações, transições de status, timestamps, etc.
-
     private static void ValidateId(int id)
     {
         if (id <= 0)
@@ -126,5 +124,23 @@ public class TaskService(TaskRepository repository) : ITaskService
         task.Description = description;
         task.UpdatedAt = DateTime.UtcNow;
         return true;
+    }
+    
+    public List<string> GetHelpCommands()
+    {
+        return
+        [
+            "add <description> - To add a new task, type add with task description",
+            "update <id> <description> - To update a task description by id",
+            "delete <id> - To delete a task by id",
+            "mark-in-progress <id> - To mark a task as in progress by id",
+            "mark-done <id> - To mark a task as done by id",
+            "list - To list all tasks",
+            "list done - To list all done tasks",
+            "list todo - To list all pending tasks",
+            "list in-progress - To list all in-progress tasks",
+            "clear - To clear all tasks",
+            "print <id> - To print a task by id"
+        ];
     }
 }
