@@ -25,6 +25,7 @@ public class TaskRepository : ITaskRepository
     public bool UpdateTaskStatus(int id, TaskStatus status)
     {
         var existingTask = GetTaskById(id);
+        
         if (existingTask == null) return false;
         existingTask.Status = status;
         existingTask.UpdatedAt = DateTime.UtcNow;  
@@ -34,6 +35,7 @@ public class TaskRepository : ITaskRepository
     public bool UpdateTaskDescription(int id, string description)
     {
         var existingTask = GetTaskById(id);
+        
         if (existingTask == null) return false;
         existingTask.Description = description;
         existingTask.UpdatedAt = DateTime.UtcNow;
@@ -43,6 +45,7 @@ public class TaskRepository : ITaskRepository
     public bool DeleteTask(int id)
     {
         var existingTask = GetTaskById(id);
+        
         if (existingTask == null) return false;
         _task.Remove(existingTask);
         return true;
@@ -66,6 +69,7 @@ public class TaskRepository : ITaskRepository
     public bool PrintTaskById(int id)
     {
         var task = GetTaskById(id);
+        
         if (task == null) return false;
         Console.WriteLine(task);  
         return true;
@@ -74,6 +78,7 @@ public class TaskRepository : ITaskRepository
     public bool PrintTasksByStatus(TaskStatus status)
     {
         var tasks = _task.Where(t => t.Status == status).ToList();
+        
         if (tasks.Count == 0) return false;
         foreach (var task in tasks)
         {
