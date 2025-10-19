@@ -1,37 +1,46 @@
 using System.Text.Json;
 using TaskTracker.CLI.Interfaces;
 using TaskTracker.CLI.Models;
+using static TaskTracker.CLI.Utils.JsonUtils;
 using TaskStatus = TaskTracker.CLI.Models.TaskStatus;
 
 namespace TaskTracker.CLI.Data;
 
 public class TaskRepository : ITaskRepository
 {
-    private const string FileName = "tasks_data.json";
-    private static readonly string FilePath = Path.Combine(Directory.GetCurrentDirectory(), FileName);
-    
+    private readonly string _filePath;
     private static int _nextId = 1;
     private List<TaskItem> _task = [];
-    
     public static void ResetIdCounter() => _nextId = 1;
-
-    public TaskRepository() => LoadFromFile();
     
+    private const string DefaultFileName = "tasks_data.json";
+    private static readonly string DefaultFilePath = Path.Combine(Directory.GetCurrentDirectory(), DefaultFileName);
+
+    public TaskRepository() : this(DefaultFilePath) { }
+
+    public TaskRepository(string filePath)
+    {
+        _filePath = filePath;
+        LoadFromFile();
+    }
+
     private void LoadFromFile()
     {
-        if (File.Exists(FilePath)) return;
-        _task = [];
-        
-        var json = File.ReadAllText(FilePath);
-        
+        if (!File.Exists(_filePath))
+        {
+            _task = [];
+            SaveToFile();
+            return;
+        }
+        var json = File.ReadAllText(_filePath);
         _task = JsonSerializer.Deserialize<List<TaskItem>>(json) ?? [];
     }
     
     private void SaveToFile()
     {
-        var json = JsonSerializer.Serialize(_task);
+        var json = JsonSerializer.Serialize(_task, GetJsonOptions());
         
-        File.WriteAllText(FilePath, json);
+        File.WriteAllText(_filePath, json);
     }
 
 

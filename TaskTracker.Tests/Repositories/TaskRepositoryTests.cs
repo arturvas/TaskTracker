@@ -1,16 +1,45 @@
 using TaskTracker.CLI.Data;
 using TaskTracker.CLI.Models;
+using Xunit.Abstractions;
 using TaskStatus = TaskTracker.CLI.Models.TaskStatus;
 
 namespace TaskTracker.Tests.Repositories;
 
-public class TaskRepositoryTests
+public class TaskRepositoryTests(ITestOutputHelper testOutputHelper)
 {
+    private static TaskRepository CreateTempRepo()
+    {
+        var tempFile = Path.Combine(Path.GetTempPath(), $"tasks_data_{Guid.NewGuid()}.json");
+        return new TaskRepository(tempFile);
+    }
+    
+    [Fact]
+    public void AddTask_ShouldSaveTaskToFile()
+    {
+        var tempFile = Path.Combine(Path.GetTempPath(), $"tasks_data_{Guid.NewGuid()}.json");
+        var repo = new TaskRepository(tempFile);
+        File.WriteAllText(tempFile, "[]");
+        
+        var task = new TaskItem { Description = "Teste Task" };
+        var result = repo.AddTask(task);
+        
+        Assert.True(result);
+        Assert.NotEmpty(repo.GetAllTasks());
+        
+        File.Delete(tempFile);
+    }
+    
+    [Fact]
+    public void AddTask_ShouldAddTask()
+    {
+        var repo = CreateTempRepo();
+    }
+    
     [Fact]
     public void AddTask_ShouldAssignIncrementalId()
     {
+        var repo = CreateTempRepo();
         TaskRepository.ResetIdCounter();
-        var repo = new TaskRepository();
         
         var task1 = new TaskItem { Description = "Task 1" };
         var task2 = new TaskItem { Description = "Task 2" };
@@ -25,7 +54,7 @@ public class TaskRepositoryTests
     [Fact]
     public void UpdateTaskDescription_ShouldChangeDescription()
     {
-        var repo = new TaskRepository();
+        var repo = CreateTempRepo();
         var task1 = new TaskItem { Description = "Task 1" };
         
         repo.AddTask(task1);
@@ -37,7 +66,7 @@ public class TaskRepositoryTests
     [Fact]
     public void UpdateTaskStatus_ShouldChangeStatus()
     {
-        var repo = new TaskRepository();
+        var repo = CreateTempRepo();
         var task1 = new TaskItem { Description = "Task 1" };
         var task2 = new TaskItem { Description = "Task 2" };
         
@@ -53,7 +82,9 @@ public class TaskRepositoryTests
     [Fact]
     public void DeleteTask_ShouldRemoveSpecificTask()
     {
-        var repo = new TaskRepository();
+        var repo = CreateTempRepo();
+        TaskRepository.ResetIdCounter();
+        
         var task1 = new TaskItem { Description = "Task 1" };
         var task2 = new TaskItem { Description = "Task 2" };
         
@@ -70,7 +101,7 @@ public class TaskRepositoryTests
     [Fact]
     public void ClearAllTasks_ShouldRemoveAllTasks()
     {
-        var repo = new TaskRepository();
+        var repo = CreateTempRepo();
         var task1 = new TaskItem { Description = "Task 1" };
         var task2 = new TaskItem { Description = "Task 2" };
         
@@ -85,7 +116,7 @@ public class TaskRepositoryTests
     [Fact]
     public void PrintAllTasks_ShouldPrintAllTasks()
     {
-        var repo = new TaskRepository();
+        var repo = CreateTempRepo();
         var task1 = new TaskItem { Description = "Task 1" };
         var task2 = new TaskItem { Description = "Task 2" };
         
