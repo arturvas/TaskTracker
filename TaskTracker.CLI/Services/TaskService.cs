@@ -5,7 +5,7 @@ using TaskStatus = TaskTracker.CLI.Models.TaskStatus;
 
 namespace TaskTracker.CLI.Services;
 
-public class TaskService(TaskRepository repository) : ITaskService
+public class TaskService(ITaskRepository repository) : ITaskService
 {
     private static void ValidateId(int id)
     {
