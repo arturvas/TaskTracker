@@ -66,7 +66,8 @@ public class TaskService(ITaskRepository repository) : ITaskService
 
     public TaskItem GetTaskById(int id)
     {
-        return EnsureTaskExists(id);
+        ValidateId(id);
+        return repository.GetTaskById(id)!;
     }
 
     public bool DeleteTask(int id)
@@ -81,7 +82,7 @@ public class TaskService(ITaskRepository repository) : ITaskService
         var tasks = repository.GetAllTasks();
         
         if (tasks.Count == 0)
-            throw new InvalidOperationException("No tasks found");
+            throw new InvalidOperationException("Tasks are already empty");
         
         repository.ClearAllTasks();
         return true;
@@ -111,7 +112,7 @@ public class TaskService(ITaskRepository repository) : ITaskService
         var task = EnsureTaskExists(id);
         
         if (task.Status == status)
-            throw new InvalidOperationException($"Task is already in {status} status");
+            throw new InvalidOperationException($"Task ({task.Description}) is already in {status} status");
         
         task.Status = status;
         task.UpdatedAt = DateTime.UtcNow;
