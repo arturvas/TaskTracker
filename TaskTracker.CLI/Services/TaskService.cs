@@ -1,4 +1,3 @@
-using TaskTracker.CLI.Data;
 using TaskTracker.CLI.Interfaces;
 using TaskTracker.CLI.Models;
 using TaskStatus = TaskTracker.CLI.Models.TaskStatus;
@@ -22,7 +21,7 @@ public class TaskService(ITaskRepository repository) : ITaskService
         return task ?? throw new InvalidOperationException("Task not found");
     }
     
-    public void AddTask(string description)
+    public TaskItem AddTask(string description)
     {
         if (string.IsNullOrWhiteSpace(description))
             throw new ArgumentException("Description cannot be empty");
@@ -42,6 +41,7 @@ public class TaskService(ITaskRepository repository) : ITaskService
         };
         
         repository.AddTask(task);
+        return task;
     }
 
     public List<TaskItem> GetAllTasks()

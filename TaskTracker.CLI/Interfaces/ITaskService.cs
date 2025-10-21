@@ -7,7 +7,7 @@ public interface ITaskService
 {
     List<TaskItem> GetAllTasks();
     TaskItem GetTaskById(int id);
-    void AddTask(string description);
+    TaskItem AddTask(string description);
     bool DeleteTask(int id);
     bool ClearAllTasks();
     bool PrintTaskById(int id);
