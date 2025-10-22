@@ -46,6 +46,19 @@ public class TaskServiceTests
     }
 
     [Fact]
+    public void UpdateTaskDescription_ThrowsException_WhenDescriptionIsSame()
+    {
+        var task = new TaskItem { Description = "Task 1" };
+        
+        var mockRepo = new Mock<ITaskRepository>();
+        mockRepo.Setup(r => r.GetTaskById(1)).Returns(task);
+        
+        var service = new TaskService(mockRepo.Object);
+        
+        Assert.Throws<InvalidOperationException>(() => service.UpdateTaskDescription(1, "Task 1")); 
+    }
+
+    [Fact]
     public void UpdateTaskStatus_ThrowsException_WhenStatusIsSame()
     {
         var task = new TaskItem { Description = "Task 1", Status = TaskStatus.InProgress};

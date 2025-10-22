@@ -88,15 +88,14 @@ public class TaskService(ITaskRepository repository) : ITaskService
         return true;
     }
 
-    public bool PrintTaskById(int id)
+    public void PrintTaskById(int id)
     {
         var task = EnsureTaskExists(id);
         
         Console.WriteLine(task.Description);
-        return true;
     }
 
-    public bool PrintTasksByStatus(TaskStatus status)
+    public void PrintTasksByStatus(TaskStatus status)
     {
         var task = repository
             .GetAllTasks()
@@ -104,10 +103,9 @@ public class TaskService(ITaskRepository repository) : ITaskService
         
         foreach (var taskItem in task)
             Console.WriteLine(taskItem.Description);
-        return true;
     }
 
-    public void UpdateTaskStatus(int id, TaskStatus status)
+    public TaskItem UpdateTaskStatus(int id, TaskStatus status)
     {
         var task = EnsureTaskExists(id);
         
@@ -116,32 +114,36 @@ public class TaskService(ITaskRepository repository) : ITaskService
         
         task.Status = status;
         task.UpdatedAt = DateTime.UtcNow;
+        return task;
     }
 
-    public bool UpdateTaskDescription(int id, string description)
+    public TaskItem UpdateTaskDescription(int id, string description)
     {
         var task = EnsureTaskExists(id);
         
+        if (task.Description.Equals(description, StringComparison.InvariantCultureIgnoreCase))
+            throw new InvalidOperationException($"Task ({task.Description}) already has the same description");
+        
         task.Description = description;
         task.UpdatedAt = DateTime.UtcNow;
-        return true;
+        return task;
     }
     
     public List<string> GetHelpCommands()
     {
         return
         [
-            "add <description> - To add a new task, type add with task description",
-            "update <id> <description> - To update a task description by id",
-            "delete <id> - To delete a task by id",
-            "mark-in-progress <id> - To mark a task as in progress by id",
-            "mark-done <id> - To mark a task as done by id",
-            "list - To list all tasks",
-            "list done - To list all done tasks",
-            "list todo - To list all pending tasks",
-            "list in-progress - To list all in-progress tasks",
-            "clear - To clear all tasks",
-            "print <id> - To print a task by id"
+            "\tadd <description> \t To add a new task, type add with task description",
+            "\tupdate <id> <description> To update a task description by id",
+            "\tdelete <id> \t\t To delete a task by id",
+            "\tmark-in-progress <id> \t To mark a task as in progress by id",
+            "\tmark-done <id> \t\t To mark a task as done by id",
+            "\tlist \t\t\t To list all tasks",
+            "\tlist done \t\t To list all done tasks",
+            "\tlist todo \t\t To list all pending tasks",
+            "\tlist in-progress \t To list all in-progress tasks",
+            "\tclear \t\t\t To clear all tasks",
+            "\tprint <id> \t\t To print a task by id"
         ];
     }
 }
