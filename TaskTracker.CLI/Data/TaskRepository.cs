@@ -14,7 +14,8 @@ public class TaskRepository : ITaskRepository
     public static void ResetIdCounter() => _nextId = 1;
     
     private const string DefaultFileName = "tasks_data.json";
-    private static readonly string DefaultFilePath = Path.Combine(Directory.GetCurrentDirectory(), DefaultFileName);
+    private static readonly string DefaultFilePath =
+        Path.Combine(Directory.GetCurrentDirectory(), DefaultFileName);
 
     public TaskRepository() : this(DefaultFilePath) { }
 
