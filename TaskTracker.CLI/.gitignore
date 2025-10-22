@@ -32,6 +32,7 @@ TestResults/
 *.nupkg
 *.snupkg
 artifacts/
+/tasks_data.json
 
 # Ferramentas locais
 tools/
