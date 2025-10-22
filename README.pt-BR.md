@@ -1,6 +1,8 @@
 [English](./README.md) | [Português](./README.pt-BR.md)
 # TaskTracker
 
+[Um projeto roadmap.sh](https://roadmap.sh/projects/task-tracker)
+
 O **TaskTracker** é uma aplicação de linha de comando (CLI) feita em C# que permite criar e gerenciar tarefas. Ele é pensado para uso simples via terminal: você pode adicionar, atualizar, deletar e listar tarefas, além de marcar o status (“To Do”, “In Progress” ou “Done”).
 
 O projeto utiliza um **TaskRepository** para persistir dados e um **TaskService** que encapsula a lógica de negócio.

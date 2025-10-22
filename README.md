@@ -1,8 +1,9 @@
 [English](./README.md) | [Português](./README.pt-BR.md)
 
-# TaskTracker
+# TaskTracker 
+[A roadmap.sh project](https://roadmap.sh/projects/task-tracker)
 
-**TaskTracker** is a command‑line interface (CLI) application written in C# for creating and managing tasks. It aims to provide a simple terminal‑based workflow: you can add, update, delete and list tasks, as well as mark them as “To Do”, “In Progress” or “Done”.
+**TaskTracker** is a command‑line interface (CLI) application written in C# for creating and managing tasks. It aims to provide a simple terminal‑based workflow: you can add, update, delete and list tasks, as well as mark them as “To Do”, “In Progress” or “Done”.
 
 The project uses a **TaskRepository** for data persistence and a **TaskService** that encapsulates the business logic.
 
@@ -21,7 +22,7 @@ These actions are implemented in `Program.cs`, which parses the command‑line a
 
 ## Prerequisites
 
-* [.NET 6+ SDK](https://dotnet.microsoft.com/download) installed.
+* [.NET 6+ SDK](https://dotnet.microsoft.com/download) installed.
 
 ## Installation and Running
 
