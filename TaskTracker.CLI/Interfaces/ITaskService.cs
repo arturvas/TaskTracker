@@ -10,10 +10,10 @@ public interface ITaskService
     TaskItem AddTask(string description);
     bool DeleteTask(int id);
     bool ClearAllTasks();
-    bool PrintTaskById(int id);
-    bool PrintTasksByStatus(TaskStatus status);
+    void PrintTaskById(int id);
+    void PrintTasksByStatus(TaskStatus status);
     void PrintAllTasks();
-    void UpdateTaskStatus(int id, TaskStatus status);
-    bool UpdateTaskDescription(int id, string description);
+    TaskItem UpdateTaskStatus(int id, TaskStatus status);
+    TaskItem UpdateTaskDescription(int id, string description);
     List<string> GetHelpCommands();
 }
