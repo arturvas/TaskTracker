@@ -74,6 +74,8 @@ catch (Exception ex)
     throw;
 }
 
+return;
+
 void EnsureArguments(string[] args, int expected, string usage)
 {
     if (args.Length >= expected) return;
